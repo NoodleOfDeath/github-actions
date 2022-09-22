@@ -19,7 +19,7 @@ jobs:
     environment: ${{ github.event.repository.name }}-${{ fromJSON('{"main":"prod"}')[github.ref_name] || github.ref_name }}
     env:
       BUILD_TARGET: ${{ secrets.BUILD_TARGET }}
-      BUILD_ARGS: \"${{ fromJSON('["API_ENDPOINT", "GENERATE_SOURCEMAP"]') }}\"
+      BUILD_ARGS: \"(\"API_ENDPOINT\" \"GENERATE_SOURCEMAP\")\"
     steps:
       - name: Print Job Description
         run: |
