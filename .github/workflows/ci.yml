@@ -14,23 +14,34 @@ env:
   IMAGE: ${{ github.event.repository.name }}-${{ fromJSON('{"main":"prod"}')[github.ref_name] || github.ref_name }}
 
 jobs:
-  build:
+
+  setup:
     runs-on: ubuntu-latest
     environment: ${{ github.event.repository.name }}-${{ fromJSON('{"main":"prod"}')[github.ref_name] || github.ref_name }}
     env:
       BUILD_TARGET: ${{ secrets.BUILD_TARGET }}
       BUILD_ARGS: API_ENDPOINT GENERATE_SOURCEMAP
+    outputs: 
+      matrix: ${{ steps.matrix.outputs.value }}
     steps:
       - name: Print Job Description
         run: |
           echo building target \"$BUILD_TARGET\" as \"$IMAGE\" from branch \"${{ github.ref_name }}\"
-      - name: Git Checkout
-        uses: actions/checkout@v3
+      - id: matrix
+        run: |
+          echo '::set-output name=value::[\"a\", \"b\", \"c\"]'
+      
+  build:
+    needs: [ setup ]
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.repository.name }}-${{ fromJSON('{"main":"prod"}')[github.ref_name] || github.ref_name }}
+    strategy:
+      matrix:
+        value: ${{fromJson(needs.setup.outputs.matrix)}}
+    env:
+      BUILD_TARGET: ${{ secrets.BUILD_TARGET }}
+      BUILD_ARGS: API_ENDPOINT GENERATE_SOURCEMAP
+    steps:
       - name: Test
         run: |
-          ARGS=(${{ env.BUILD_ARGS }})
-          for ARG in "${ARGS[@]}"
-          do
-            export $ARG="$ARG"
-            echo -e $ARG=\"${{ secrets['env.ARG'] || env.ARG }}\"
-          done
+          echo ${{ matrix.value }}
