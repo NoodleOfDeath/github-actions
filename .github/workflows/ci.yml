@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Test
         run: |
-          ARGS=(${{ $BUILD_ARGS }})
+          ARGS=(${{ env.BUILD_ARGS }})
           for ARG in "${ARGS[@]}"
           do
             echo -e $ARG=\"${{ secrets['$ARG'] }}\"
