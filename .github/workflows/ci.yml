@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  IMAGE: ${{ github.event.repository.name }}-${{ fromJSON('{"main":"prod"}')[github.ref_name] || github.ref_name }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.repository.name }}-${{ fromJSON('{"main":"prod"}')[github.ref_name] || github.ref_name }}
+    env:
+      BUILD_TARGET: ${{ secrets.BUILD_TARGET }}
+      BUILD_ARGS: ${{ secrets.BUILD_ARGS }}
+    steps:
+      - name: Print Job Description
+        run: |
+          echo building target \"$BUILD_TARGET\" as \"$IMAGE\" from branch \"${{ github.ref_name }}\"
+      - name: Git Checkout
+        uses: actions/checkout@v3
+      - name: Test
+        run: |
+          for ARG in $BUILD_ARGS
+          do
+            echo -e $ARG
+          done
