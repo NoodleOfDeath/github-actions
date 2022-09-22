@@ -31,5 +31,5 @@ jobs:
           ARGS=(${{ env.BUILD_ARGS }})
           for ARG in "${ARGS[@]}"
           do
-            echo -e $ARG=\"${{ secrets['$ARG'] }}\"
+            echo -e $ARG=\"${{ secrets['env.ARG'] }}\"
           done
