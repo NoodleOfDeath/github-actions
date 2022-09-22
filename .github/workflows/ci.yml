@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Test
         run: |
-          for ARG in $BUILD_ARGS
+          for ARG in "${BUILD_ARGS[@]}"
           do
-            echo -e $ARG
+            echo -e ${{ env.ARG }}
           done
