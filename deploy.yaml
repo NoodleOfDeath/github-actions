@@ -1,2 +1,3 @@
 this is a test $PORT
 $REDIS_URL
+$IMAGE
