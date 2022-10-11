@@ -20,6 +20,8 @@ jobs:
     environment: ${${{ fromJSON('{"main":"prod"}')[github.ref_name] || github.ref_name }}
     env:
       API_ENDPOINT: "${{ secrets.API_ENDPOINT }}"
+      PORT: ${{ secrets.PORT }}
+      REDIS_URL: ${{ secrets.REDIS_URL }}
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
