@@ -24,6 +24,6 @@ jobs:
       - name: ls
         run: ls -A $GITHUB_WORKSPACE
       - name: envsubst test
-        run: envsubst < deploy.yaml | echo -
+        run: envsubst < deploy.yaml | cat -
   
      
