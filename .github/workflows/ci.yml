@@ -18,6 +18,8 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     environment: ${${{ fromJSON('{"main":"prod"}')[github.ref_name] || github.ref_name }}
+    env:
+      API_ENDPOINT="${{ secrets.API_ENDPOINT }}"
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
