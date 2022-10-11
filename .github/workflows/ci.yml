@@ -22,7 +22,9 @@ jobs:
       - name: Git Checkout
         uses: actions/checkout@v3
       - name: env
-        run: env
+        run: env | grep IMAGE
+      - name: env
+        run: env | grep API_ENDPOINT
       - name: envsubst test
         run: envsubst < deploy.yaml | cat -
   
