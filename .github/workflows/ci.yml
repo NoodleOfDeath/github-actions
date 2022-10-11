@@ -21,8 +21,8 @@ jobs:
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
-      - name: ls
-        run: ls -A $GITHUB_WORKSPACE
+      - name: env
+        run: env
       - name: envsubst test
         run: envsubst < deploy.yaml | cat -
   
