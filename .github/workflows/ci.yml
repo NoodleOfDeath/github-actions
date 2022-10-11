@@ -18,14 +18,14 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     environment: ${${{ fromJSON('{"main":"prod"}')[github.ref_name] || github.ref_name }}
+    env:
+      API_ENDPOINT: "${{ secrets.API_ENDPOINT }}"
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
       - name: env
         run: env | grep IMAGE
       - name: env
-        env:
-          API_ENDPOINT="${{ secrets.API_ENDPOINT }}"
         run: env | grep API_ENDPOINT
       - name: envsubst test
         run: envsubst < deploy.yaml | cat -
